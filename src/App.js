@@ -1,23 +1,18 @@
 import { useEffect, useState } from 'react';
 import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
-import { Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
+import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import {
   Program, Provider, web3
 } from '@project-serum/anchor';
 
 import idl from './idl.json';
 import kp from './keypair.json'
+import util from 'util'
 
 // Constants
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const TEST_GIFS = [
-  'https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp',
-  'https://media3.giphy.com/media/L71a8LW2UrKwPaWNYM/giphy.gif?cid=ecf05e47rr9qizx2msjucl1xyvuu47d7kf25tqt2lvo024uo&rid=giphy.gif&ct=g',
-  'https://media4.giphy.com/media/AeFmQjHMtEySooOc8K/giphy.gif?cid=ecf05e47qdzhdma2y3ugn32lkgi972z9mpfzocjj6z1ro4ec&rid=giphy.gif&ct=g',
-  'https://i.giphy.com/media/PAqjdPkJLDsmBRSYUp/giphy.webp'
-]
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram, Keypair } = web3;
@@ -81,7 +76,7 @@ const App = () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
-  
+
       await program.rpc.addGif(inputValue, {
         accounts: {
           baseAccount: baseAccount.publicKey,
@@ -89,7 +84,7 @@ const App = () => {
         },
       });
       console.log("GIF sucesfully sent to program", inputValue)
-  
+
       await getGifList();
     } catch (error) {
       console.log("Error sending GIF:", error)
@@ -124,8 +119,8 @@ const App = () => {
       });
       console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
       await getGifList();
-  
-    } catch(error) {
+
+    } catch (error) {
       console.log("Error creating BaseAccount account:", error)
     }
   }
@@ -147,10 +142,10 @@ const App = () => {
           </button>
         </div>
       )
-    } 
+    }
     // Otherwise, we're good! Account exists. User can submit GIFs.
     else {
-      return(
+      return (
         <div className="connected-container">
           <form
             onSubmit={(event) => {
@@ -173,6 +168,7 @@ const App = () => {
             {gifList.map((item, index) => (
               <div className="gif-item" key={index}>
                 <img src={item.gifLink} />
+                <p style={{ overflowWrap: "break-word", maxWidth: "200px", color: "white", margin: "15px auto" }}>{JSON.parse(JSON.stringify(item.userAddress._bn))}</p>
               </div>
             ))}
           </div>
@@ -189,21 +185,21 @@ const App = () => {
     return () => window.removeEventListener('load', onLoad);
   }, [])
 
-  const getGifList = async() => {
+  const getGifList = async () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
       const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-      
+
       console.log("Got the account", account)
       setGifList(account.gifList)
-  
+
     } catch (error) {
       console.log("Error in getGifs: ", error)
       setGifList(null);
     }
   }
-  
+
   useEffect(() => {
     if (walletAddress) {
       console.log('Fetching GIF list...');
