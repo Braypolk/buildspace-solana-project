@@ -170,9 +170,10 @@ const App = () => {
               <div className="gif-item" key={index}>
                 <img src={item.gifLink} />
                 <div className="itemInfo">
-                  <div "smallBox"></div>
-                  <p style={{ overflowWrap: "break-word", maxWidth: "200px", color: "white", margin: "15px auto" }}>{JSON.parse(JSON.stringify(item.userAddress._bn))}</p>
-                  <div "smallBox"></div>
+                  <button onClick={() => console.log("upvote")} className="smallBox" style={{ backgroundColor: "green" }}/>
+                  <p>0</p>
+                  <button onClick={() => console.log("downvote")} className="smallBox" style={{ backgroundColor: "red" }}/>
+                  <p style={{ overflowWrap: "break-word", maxWidth: "200px", color: "white", margin: "15px auto" }}>{item.userAddress.toString()}</p>
                 </div>
               </div>
             ))}
