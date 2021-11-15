@@ -70,7 +70,7 @@ const App = () => {
 
   const sendGif = async () => {
     if (inputValue.length === 0) {
-      console.log("No gif link given!")
+      alert("No gif link given!")
       return
     }
     console.log('Gif link:', inputValue);
@@ -171,9 +171,10 @@ const App = () => {
                 <img src={item.gifLink} />
                 <div className="itemInfo">
                   <button onClick={() => console.log("upvote")} className="smallBox" style={{ backgroundColor: "green" }}/>
-                  <p>0</p>
+                  <p style={{color:"white"}}>0</p>
                   <button onClick={() => console.log("downvote")} className="smallBox" style={{ backgroundColor: "red" }}/>
                   <p style={{ overflowWrap: "break-word", maxWidth: "200px", color: "white", margin: "15px auto" }}>{item.userAddress.toString()}</p>
+                  <button onClick={() => console.log("tipped")} style={{height:"20px", width:"20px", margin:"0", padding:"0", background:"none"}}><img src="https://cdn.icon-icons.com/icons2/2104/PNG/512/coin_icon_129365.png" style={{height:"100%", width:"100%"}}/></button>
                 </div>
               </div>
             ))}
