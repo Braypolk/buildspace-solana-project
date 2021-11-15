@@ -44,7 +44,8 @@ const App = () => {
         if (solana.isPhantom) {
           console.log("Phantom wallet found");
 
-          const res = await solana.connect({ onlyIfTrusted: true });
+          // const res = await solana.connect({ onlyIfTrusted: true }); this throws an error from what I read it's a bug in the extension itself
+          const res = await solana.connect();
           console.log(res.publicKey.toString());
           setWalletAddress(res.publicKey.toString());
         }
@@ -168,7 +169,11 @@ const App = () => {
             {gifList.map((item, index) => (
               <div className="gif-item" key={index}>
                 <img src={item.gifLink} />
-                <p style={{ overflowWrap: "break-word", maxWidth: "200px", color: "white", margin: "15px auto" }}>{JSON.parse(JSON.stringify(item.userAddress._bn))}</p>
+                <div className="itemInfo">
+                  <div "smallBox"></div>
+                  <p style={{ overflowWrap: "break-word", maxWidth: "200px", color: "white", margin: "15px auto" }}>{JSON.parse(JSON.stringify(item.userAddress._bn))}</p>
+                  <div "smallBox"></div>
+                </div>
               </div>
             ))}
           </div>
@@ -216,15 +221,6 @@ const App = () => {
           <p className="sub-text" > View your GIF collection in the metaverse✨ </p>
           {!walletAddress && renderNotConnectedContainer()} {walletAddress && renderConnectedContainer()}.
         </div>
-        <div className="footer-container" >
-          <img alt="Twitter Logo"
-            className="twitter-logo"
-            src={twitterLogo} />
-          <a className="footer-text"
-            href={TWITTER_LINK}
-            target="_blank"
-            rel="noreferrer" > {`built on @${TWITTER_HANDLE}`} </a>
-        </div >
       </div> </div>);
 };
 

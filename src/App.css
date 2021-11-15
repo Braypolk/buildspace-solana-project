@@ -128,3 +128,9 @@
 .connected-container button {
   height: 50px;
 }
+
+.smallBox {
+  height: 10px;
+  width: 10px;
+  background-color: orange;
+}
